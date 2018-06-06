@@ -7,6 +7,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -20,7 +21,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		name := c.QueryParam("name")
+		return c.String(http.StatusOK, fmt.Sprintf("Hello, %s!", name))
 	})
 
 	e.GET("/users/:id", func(c echo.Context) error {
