@@ -27,10 +27,11 @@ func (t *templates) Render(w io.Writer, name string, data interface{}, c echo.Co
 func main() {
 	e := echo.New()
 
+	e.Static("/assets", "assets")
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	t := &templates{templates: template.Must(template.ParseGlob("static/views/*.html"))}
+	t := &templates{templates: template.Must(template.ParseGlob("assets/views/*.html"))}
 	e.Renderer = t
 
 	e.GET("/", handler.Index)
