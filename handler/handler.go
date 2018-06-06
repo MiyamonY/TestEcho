@@ -30,3 +30,7 @@ func Users(c echo.Context) error {
 func SimpleHTML(c echo.Context) error {
 	return c.HTML(http.StatusOK, "<strong>Hello, Wold!</strong>")
 }
+
+func Template(c echo.Context) error {
+	return c.Render(http.StatusOK, "hello", "world")
+}
