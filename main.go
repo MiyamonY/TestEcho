@@ -38,6 +38,7 @@ func main() {
 	e.GET("/users/:id", handler.Users)
 	e.GET("/simplehtml", handler.SimpleHTML)
 	e.GET("/html", handler.Template)
+	e.POST("html", handler.Post)
 
 	e.Logger.Fatal(e.Start(":1234"))
 }
