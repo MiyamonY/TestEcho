@@ -26,3 +26,7 @@ func Users(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, jsonMap)
 }
+
+func SimpleHTML(c echo.Context) error {
+	return c.HTML(http.StatusOK, "<strong>Hello, Wold!</strong>")
+}

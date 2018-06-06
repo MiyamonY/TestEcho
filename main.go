@@ -20,8 +20,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", handler.Index)
-
 	e.GET("/users/:id", handler.Users)
+	e.GET("/simplehtml", handler.SimpleHTML)
 
 	e.Logger.Fatal(e.Start(":1234"))
 }
