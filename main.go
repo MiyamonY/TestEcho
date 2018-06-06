@@ -19,5 +19,14 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
+	e.GET("/users/:id", func(c echo.Context) error {
+		username := c.Param("id")
+		jsonMap := map[string]string{
+			"name": username,
+			"bar":  "barbar",
+		}
+		return c.JSON(http.StatusOK, jsonMap)
+	})
+
 	e.Logger.Fatal(e.Start(":1234"))
 }
