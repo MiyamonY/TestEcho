@@ -7,6 +7,7 @@
 package main
 
 import (
+	"database/sql"
 	"html/template"
 	"io"
 
@@ -14,6 +15,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type templates struct {
@@ -27,6 +29,14 @@ func (t *templates) Render(w io.Writer, name string, data interface{}, c echo.Co
 func main() {
 	e := echo.New()
 
+	db, err := sql.Open("sqlite3", "./test.db")
+	if err != nil {
+		e.Logger.Fatal("sql error:", err)
+	}
+	defer db.Close()
+
+	h := handler.NewHandler(db)
+
 	e.Static("/assets", "assets")
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -34,11 +44,11 @@ func main() {
 	t := &templates{templates: template.Must(template.ParseGlob("assets/views/*.html"))}
 	e.Renderer = t
 
-	e.GET("/", handler.Index)
-	e.GET("/users/:id", handler.Users)
-	e.GET("/simplehtml", handler.SimpleHTML)
-	e.GET("/html", handler.Template)
-	e.POST("html", handler.Post)
+	e.GET("/", h.Index)
+	e.GET("/users/:id", h.Users)
+	e.GET("/simplehtml", h.SimpleHTML)
+	e.GET("/html", h.Template)
+	e.POST("/html", h.Post)
 
 	e.Logger.Fatal(e.Start(":1234"))
 }
